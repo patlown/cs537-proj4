@@ -1,6 +1,8 @@
 #ifndef RANGE_TREE_H
 #define RANGE_TREE_H
 
+#include <stdlib.h>
+#include <stdio.h>
 
 /*
 This structure will hold intervals of address ranges.
@@ -9,16 +11,70 @@ This will be used with as a data field for interval tree structure nodes.
 */
 typedef struct interval
 {
-    size_t low;
-    size_t high;
+    void* low;
+    void* high;
 } interval;
 
+/*
+This will be used as the main data structure for implementing ranged queuries
+Each tree_node will store an interval, a max value for the highest addr in its right subtree,
+and pointers to its left and right subtree. The struct and idea for this structure and its properties were
+inspired by this implementation of an interval tree: https://www.geeksforgeeks.org/interval-tree/
+*/
 typedef struct tree_node
 {
     interval *i;
-    size_t max;
+    void* max;
     tree_node *left;
     tree_node *right;
 } tree_node;
+
+/*
+This function will construct a new interval for use in a tree_node for the interval tree.
+*/
+interval* new_interval(void* ptr, size_t size);
+
+/*
+This function will construct a new tree node and return the addr of it, the required parameter
+will be the interval of addresses that this tree node will store.  Its max will be the value of its high addr.
+Both children will be set to NULL
+*/
+tree_node* new_tree_node(interval* i);
+
+/*
+This function will insert a tree node into the current interval tree. If the tree is empty, this node will become the root.
+It will update the max value of any necessary nodes during insertion.  This function does not check or discard intervals that overlap
+with intervals that are currently in the tree.  If desired functionality is to maintain a non-overlapping interval tree, call the 
+overlap_search function before calling this one.
+Complexity: O(logn) insertion time
+*/
+void insert_node(tree_node *root, tree_node *node);
+
+/*
+This function will delete a tree node in the current interval tree.  Has potential to change the max for interval nodes.
+*/
+void delete_node(tree_node *root, tree_node *node);
+
+/*
+Simple function that checks if two intervals overlap with each other.  Used in functions throughout this header file.
+Returns 1 if intervals overlap, 0 if they do not
+*/
+int does_overlap(interval i, interval j);
+
+/*
+This function will check the interval tree to see if the interval passed in overlaps with
+any of the intervals currently in the tree.  It will return 1 if an overlapping interval is found
+and 0 if no overlapping intervals are found.
+Complexity: O(logn) time for check
+*/
+int overlap_search(tree_node *root, interval *i);
+
+/*
+This function will print the tree in level order
+*/
+void print_inorder(tree_node* root);
+
+
+
 
 #endif RANGE_TREE_H
