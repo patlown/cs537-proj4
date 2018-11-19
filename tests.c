@@ -41,7 +41,7 @@ void basic_tree_test(){
     root = insert_node(root,zi);
     root = insert_node(root,wi);
 
-    print_inorder(root);
+    print_inorder(root,0);
 
 
 }
