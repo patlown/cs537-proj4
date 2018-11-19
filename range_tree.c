@@ -28,6 +28,7 @@ void insert_node(tree_node *root, tree_node *node){
     
     if(root == NULL){
         root = node;
+	return;
     }
 
     void* l = root->i->low;
@@ -36,6 +37,7 @@ void insert_node(tree_node *root, tree_node *node){
         if current node's low is lower than the root's low, add it somewhere in the left subtree
         else, add it somewhere in the right subtree
     */
+
     if(node->i->low < l){
         insert_node(root->left,node);
     }else{
@@ -46,6 +48,7 @@ void insert_node(tree_node *root, tree_node *node){
     if(root->max < node->i->high){
         root->max = node->i->high;
     }
+    
 
 }
 

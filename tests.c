@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include "range_tree.h"
 
+void basic_tree_test();
+
 int main(){
 
     //addr_arithmetic();
@@ -28,10 +30,12 @@ void basic_tree_test(){
     tree_node* z_node = new_tree_node(zi);
     tree_node* w_node = new_tree_node(wi);
 
-    //printf("x's low: %p, x's high: %p\n", x_node->i->low, x_node->i->high);
+    printf("x's low: %p, x's high: %p\n", x_node->i->low, x_node->i->high);
     tree_node* root = NULL;
     
+    
     insert_node(root,x_node);
+    //printf("root's low: %p, root's high: %p\n",root->i->low, root->i->high);
     insert_node(root,y_node);
     insert_node(root,z_node);
     insert_node(root,w_node);
