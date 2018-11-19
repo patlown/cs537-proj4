@@ -53,6 +53,11 @@ Complexity: O(logn) insertion time
 tree_node* insert_node(tree_node *root, interval* i);
 
 /*
+This function, checks, for the given node, if either child's max is greater than it's own.  If so, adjusts its own max
+*/
+void insert_adjust(tree_node* node);
+
+/*
 This function will delete a tree node in the current interval tree.  Has potential to change the max for interval nodes.
 */
 void delete_node(tree_node *root, tree_node *node);

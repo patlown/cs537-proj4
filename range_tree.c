@@ -24,6 +24,22 @@ interval* new_interval(void* ptr, size_t size){
     return i;
 }
 
+void insert_adjust(tree_node* node){
+
+    //checks if left child's max is greater than its own
+    if(node->left != NULL){
+        if(node->max < node->left->max){
+            node->max = node->left->max;
+        }
+    }
+    //checks if right child's max is greater than its own
+    if(node->right != NULL){
+        if(node->max < node->right->max){
+            node->max = node->right->max;
+        }
+    }
+}
+
 tree_node* insert_node(tree_node *root, interval *i){
     
     if(root == NULL){
@@ -44,9 +60,7 @@ tree_node* insert_node(tree_node *root, interval *i){
     }
 
     //update the max value of the node
-    if(root->max < i->high){
-        root->max = i->high;
-    }    
+    insert_adjust(root);
 
     return root;
 
