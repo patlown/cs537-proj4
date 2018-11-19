@@ -30,7 +30,7 @@ void basic_tree_test(){
     // tree_node* z_node = new_tree_node(zi);
     // tree_node* w_node = new_tree_node(wi);
 
-    printf("x's low: %p, x's high: %p\n", x_node->i->low, x_node->i->high);
+    //printf("x's low: %p, x's high: %p\n", x_node->i->low, x_node->i->high);
     tree_node* root = NULL;
     
     
