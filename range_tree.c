@@ -27,7 +27,7 @@ interval* new_interval(void* ptr, size_t size){
 tree_node* insert_node(tree_node *root, interval *i){
     
     if(root == NULL){
-	    return new_tree_node(i);;
+	    return new_tree_node(i);
     }
 
     void* l = root->i->low;
@@ -46,10 +46,10 @@ tree_node* insert_node(tree_node *root, interval *i){
     //update the max value of the node
     if(root->max < i->high){
         root->max = i->high;
-    }
+    }    
 
     return root;
-    
+
 
 }
 
