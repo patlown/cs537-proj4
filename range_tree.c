@@ -38,9 +38,9 @@ tree_node* insert_node(tree_node *root, interval *i){
     */
 
     if(i->low < l){
-        insert_node(root->left,i);
+        root->left = insert_node(root->left,i);
     }else{
-        insert_node(root->right,i);
+        root->right = insert_node(root->right,i);
     }
 
     //update the max value of the node
