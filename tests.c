@@ -2,9 +2,14 @@
 #include <stdio.h>
 #include "range_tree.h"
 
+void basic_tree_test();
+
 int main(){
 
-    addr_arithmetic();
+    //addr_arithmetic();
+    
+    basic_tree_test();
+
     return 1;
 
     

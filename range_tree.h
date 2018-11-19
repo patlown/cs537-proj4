@@ -4,16 +4,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+typedef struct interval interval;
+typedef struct tree_node tree_node;
 /*
 This structure will hold intervals of address ranges.
 The low will represent the lower addr and high will represent higher addr
 This will be used with as a data field for interval tree structure nodes.
 */
-typedef struct interval
+struct interval
 {
     void* low;
     void* high;
-} interval;
+};
 
 /*
 This will be used as the main data structure for implementing ranged queuries
@@ -21,13 +23,13 @@ Each tree_node will store an interval, a max value for the highest addr in its r
 and pointers to its left and right subtree. The struct and idea for this structure and its properties were
 inspired by this implementation of an interval tree: https://www.geeksforgeeks.org/interval-tree/
 */
-typedef struct tree_node
+struct tree_node
 {
     interval *i;
     void* max;
     tree_node *left;
     tree_node *right;
-} tree_node;
+};
 
 /*
 This function will construct a new interval for use in a tree_node for the interval tree.
@@ -77,4 +79,4 @@ void print_inorder(tree_node* root);
 
 
 
-#endif RANGE_TREE_H
+#endif
