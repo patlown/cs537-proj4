@@ -24,11 +24,11 @@ interval* new_interval(void* ptr, size_t size){
     return i;
 }
 
-void insert_node(tree_node *root, tree_node *node){
+tree_node* insert_node(tree_node *root, interval *i){
     
     if(root == NULL){
-        root = node;
-	return;
+        root = new_tree_node(i);
+	    return root;
     }
 
     void* l = root->i->low;
@@ -38,15 +38,15 @@ void insert_node(tree_node *root, tree_node *node){
         else, add it somewhere in the right subtree
     */
 
-    if(node->i->low < l){
-        insert_node(root->left,node);
+    if(i->low < l){
+        insert_node(root->left,i);
     }else{
-        insert_node(root->right,node);
+        insert_node(root->right,i);
     }
 
     //update the max value of the node
-    if(root->max < node->i->high){
-        root->max = node->i->high;
+    if(root->max < i->high){
+        root->max = i->high;
     }
     
 

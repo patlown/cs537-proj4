@@ -25,20 +25,20 @@ void basic_tree_test(){
     interval* zi = new_interval((void*)z,sizeof(int));
     interval* wi = new_interval((void*)w,sizeof(int));
 
-    tree_node* x_node = new_tree_node(xi);
-    tree_node* y_node = new_tree_node(yi);
-    tree_node* z_node = new_tree_node(zi);
-    tree_node* w_node = new_tree_node(wi);
+    // tree_node* x_node = new_tree_node(xi);
+    // tree_node* y_node = new_tree_node(yi);
+    // tree_node* z_node = new_tree_node(zi);
+    // tree_node* w_node = new_tree_node(wi);
 
     printf("x's low: %p, x's high: %p\n", x_node->i->low, x_node->i->high);
     tree_node* root = NULL;
     
     
-    insert_node(root,x_node);
+    root = insert_node(root,xi);
     //printf("root's low: %p, root's high: %p\n",root->i->low, root->i->high);
-    insert_node(root,y_node);
-    insert_node(root,z_node);
-    insert_node(root,w_node);
+    root = insert_node(root,yi);
+    root = insert_node(root,zi);
+    root = insert_node(root,wi);
 
     print_inorder(root);
 

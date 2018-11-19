@@ -50,7 +50,7 @@ with intervals that are currently in the tree.  If desired functionality is to m
 overlap_search function before calling this one.
 Complexity: O(logn) insertion time
 */
-void insert_node(tree_node *root, tree_node *node);
+tree_node* insert_node(tree_node *root, interval* i);
 
 /*
 This function will delete a tree node in the current interval tree.  Has potential to change the max for interval nodes.
