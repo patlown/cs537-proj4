@@ -67,16 +67,16 @@ tree_node* insert_node(tree_node *root, interval *i){
 
 }
 
-void print_inorder(tree_node* root){
+void print_inorder(tree_node* root, int level){
 
     if(root == NULL){
         return;
     }
 
-    print_inorder(root->left);
+    print_inorder(root->left, level + 1);
 
-    printf("The current tree_node has low: %p, high: %p, and max: %p\n", root->i->low, root->i->high, root->max);
+    printf("The current tree_node has low: %p, high: %p, max: %p, and level: %d\n", root->i->low, root->i->high, root->max,level);
 
-    print_inorder(root->right);
+    print_inorder(root->right, level + 1);
 }
 

@@ -79,7 +79,8 @@ int overlap_search(tree_node *root, interval *i);
 /*
 This function will print the tree in level order
 */
-void print_inorder(tree_node* root);
+void print_inorder(tree_node* root, int level);
+
 
 
 
