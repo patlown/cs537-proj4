@@ -27,8 +27,7 @@ struct tree_node
 {
     interval *i;
     void* max;
-    tree_node *left;
-    tree_node *right;
+    tree_node *left,*parent,*right;
 };
 
 /*

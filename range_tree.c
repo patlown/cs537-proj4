@@ -8,7 +8,7 @@ tree_node* new_tree_node(interval* i){
     node->max = i->high;
     node->left = NULL;
     node->right = NULL;
-
+    node->parent = NULL;
     return node;
 }
 
