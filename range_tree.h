@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 typedef struct interval interval;
 typedef struct tree_node tree_node;
@@ -15,6 +16,8 @@ struct interval
 {
     void* low;
     void* high;
+    bool freed;
+
 };
 
 /*
@@ -81,7 +84,7 @@ This function will print the tree in level order
 void print_inorder(tree_node* root, int level);
 
 
-
+void print_t(tree_node *tree);
 
 
 #endif

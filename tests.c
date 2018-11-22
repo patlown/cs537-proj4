@@ -8,6 +8,7 @@ int main(){
 
     //addr_arithmetic();
     basic_tree_test();
+    
     return 1;
 
     
@@ -42,7 +43,7 @@ void basic_tree_test(){
     root = insert_node(root,wi);
 
     print_inorder(root,0);
-
+    print_t(root);
 
 }
 
