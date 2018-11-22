@@ -35,12 +35,12 @@ void basic_tree_test(){
     tree_node* root = NULL;
     
     
-    root = insert_node(root,xi);
-    //printf("root's low: %p, root's high: %p, root's max: %p\n",root->i->low, root->i->high,root->max);
-    root = insert_node(root,yi);
-    //printf("root's low: %p, root's high: %p, root's max: %p\n",root->i->low, root->i->high,root->max);
-    root = insert_node(root,zi);
-    root = insert_node(root,wi);
+    // root = insert_node(root,xi);
+    // //printf("root's low: %p, root's high: %p, root's max: %p\n",root->i->low, root->i->high,root->max);
+    // root = insert_node(root,yi);
+    // //printf("root's low: %p, root's high: %p, root's max: %p\n",root->i->low, root->i->high,root->max);
+    // root = insert_node(root,zi);
+    // root = insert_node(root,wi);
 
     print_inorder(root,0);
     print_t(root);
