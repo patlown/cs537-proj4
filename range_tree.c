@@ -13,7 +13,7 @@ void rotate_left(tree_node** root, tree_node* x);
 static tree_node nil_node;
 
 tree_node* root = NULL;
-tree_node* nil = &nil_node;
+static tree_node* nil = &nil_node;
 
 tree_node** init_root(){
     root = nil;
@@ -287,6 +287,26 @@ void print_t(tree_node *tree)
         printf("%s\n", s[i]);
 }
 
+
+int main(){
+    root  = nil;
+
+    int* x = malloc(sizeof(int));
+    int* y = malloc(sizeof(int));
+    int* z = malloc(sizeof(int));
+    int* w = malloc(sizeof(int));
+
+
+    interval* xi = new_interval((void*)x,sizeof(int));
+    interval* yi = new_interval((void*)y,sizeof(int));
+    interval* zi = new_interval((void*)z,sizeof(int));
+    interval* wi = new_interval((void*)w,sizeof(int));
+
+    insert_node(&root,xi);
+    insert_node(&root, yi);
+    // insert_node(&root,zi);
+    // insert_node(&root, wi);
+}
 // int main(){
 //     tree_node *tree = malloc(sizeof(tree_node));
     
