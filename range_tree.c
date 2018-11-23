@@ -92,6 +92,7 @@ void insert_node(tree_node **root, interval *i){
     //set new node with nil children
     new->right = nil;
     new->left = nil;
+    new->color = 'r';
     insert_fix(root, new);
 }
 /*
@@ -134,6 +135,7 @@ void insert_fix(tree_node** root, tree_node* z){
             rotate_left(root,z->parent->parent);
         }
     }
+    root[0]->color = 'b';
 
     
 
@@ -204,7 +206,7 @@ tree_node* find_uncle(tree_node* node){
 //bellow is the printing tree function
 void print_inorder(tree_node* root, int level){
 
-    if(root == nil){
+   if(root == nil){
         return;
     }
 
@@ -304,8 +306,8 @@ int main(){
 
     insert_node(&root,xi);
     insert_node(&root, yi);
-    // insert_node(&root,zi);
-    // insert_node(&root, wi);
+    insert_node(&root,zi);
+    insert_node(&root, wi);
 }
 // int main(){
 //     tree_node *tree = malloc(sizeof(tree_node));
