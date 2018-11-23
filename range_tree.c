@@ -101,7 +101,7 @@ void insert_fix(tree_node** root, tree_node* z){
     tree_node* y;
     //iterate until z isn't root and z's parent color is red
     while(z->parent->color == 'r'){
-        if(z->parent->i->low == z->parent->parent->left->i->low){
+        if(z->parent->i->low == z->parent->parent->i->low){
             y = z->parent->parent->right;
             if(y->color == 'r'){
                 z->parent->color = 'b';
