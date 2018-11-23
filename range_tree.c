@@ -17,7 +17,7 @@ tree_node* nil = &nil_node;
 
 tree_node** init_root(){
     root = nil;
-    root->i->low = 0;
+    //root->i = new_interval(NULL,0);
     root->color = 'b';
 
     return &root;
