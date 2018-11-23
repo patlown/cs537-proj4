@@ -50,11 +50,9 @@ Both children will be set to NULL
 tree_node* new_tree_node(interval* i);
 
 /*
-This function will insert a tree node into the current interval tree. If the tree is empty, this node will become the root.
-It will update the max value of any necessary nodes during insertion.  This function does not check or discard intervals that overlap
-with intervals that are currently in the tree.  If desired functionality is to maintain a non-overlapping interval tree, call the 
-overlap_search function before calling this one.
-Complexity: O(logn) insertion time
+This function will insert a node in the tree based on the lower value of interval passed in.  The implementation
+of this tree is currently that of a Red Black Tree.  This guarentees insertions in O(logn) time as the RBT
+always remains "balanced"
 */
 void insert_node(tree_node **root, interval* i);
 

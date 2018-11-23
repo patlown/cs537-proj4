@@ -107,7 +107,20 @@ void insert_fix(tree_node** root, tree_node* z){
             z->parent->parent->color = 'r';
             rotate_right(root,z->parent->parent);
         }else{
-            
+            //this case is the same as the prev. with all right replaced with left
+            y = z->parent->parent->left;
+            if(y->color == 'r'){
+                z->parent->color = 'b';
+                y->color = 'b';
+                z->parent->parent->color = 'r';
+                z = z->parent->parent;
+            }else if(z->i->low == z->parent->left->i->low){
+                z = z->parent;
+                rotate_right(root,z);
+            }
+            z->parent->color = 'b';
+            z->parent->parent->color = 'r';
+            rotate_left(root,z->parent->parent);
         }
     }
 
