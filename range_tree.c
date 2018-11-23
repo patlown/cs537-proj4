@@ -5,12 +5,22 @@
 */
 void insert_fix(tree_node** root, tree_node* z);
 tree_node* find_uncle(tree_node* node);
+void rotate_right(tree_node** root, tree_node* x);
+void rotate_left(tree_node** root, tree_node* x);
 
 //----------------------------------------------
 
 static tree_node nil_node;
-tree_node* nil = &nil_node;
+
 tree_node* root = NULL;
+tree_node* nil = &nil_node;
+
+tree_node** init_root(){
+    root = nil;
+    root->color = 'b';
+
+    return &root;
+}
 
 tree_node* new_tree_node(interval* i){
     
@@ -193,7 +203,7 @@ tree_node* find_uncle(tree_node* node){
 //bellow is the printing tree function
 void print_inorder(tree_node* root, int level){
 
-    if(root == NULL){
+    if(root == nil){
         return;
     }
 
