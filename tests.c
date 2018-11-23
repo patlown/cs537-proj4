@@ -49,7 +49,7 @@ void basic_tree_test(){
 
 
     print_inorder(*root,0);
-    //print_t(root);
+    //print_t(*root);
 
 }
 

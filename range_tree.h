@@ -58,6 +58,11 @@ tree_node** init_root();
 This function will insert a node in the tree based on the lower value of interval passed in.  The implementation
 of this tree is currently that of a Red Black Tree.  This guarentees insertions in O(logn) time as the RBT
 always remains "balanced"
+
+The algorithm for this function is drawn heavily from "Introduction to Algorithms, Third Edition
+3rd" by Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein Chapter 13: Red Black Trees
+Additionally, https://stackoverflow.com/questions/42800462/trying-to-implement-a-red-black-tree-in-c and
+https://www.geeksforgeeks.org/c-program-red-black-tree-insertion/ were used as resources for implementation
 */
 void insert_node(tree_node **root, interval* i);
 
@@ -70,7 +75,7 @@ void insert_adjust(tree_node* node);
 This function will delete a tree node in the current interval tree.  Has potential to change the max for interval nodes.
 https://stackoverflow.com/questions/28012126/trouble-deleting-a-node-in-red-black-tree-c-code
 */
-void delete_node(tree_node *root, tree_node *node);
+void delete_node(tree_node** root, tree_node *node);
 
 /*
 Simple function that checks if two intervals overlap with each other.  Used in functions throughout this header file.
@@ -78,14 +83,6 @@ Returns 1 if intervals overlap, 0 if they do not
 */
 int does_overlap(interval i, interval j);
 
-/*
-This function will fix any violations introduced when inserting a node, it handles three cases:
-0. z = root
-1. z's uncle (z->parent->(left or right)) = red
-2. z's uncle = black
-    - this case has four sub-cases, 
-*/
-void fix_violations(tree_node** root, tree_node* z);
 
 /*
 This function will check the interval tree to see if the interval passed in overlaps with
