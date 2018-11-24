@@ -8,11 +8,11 @@ tree_node* find_uncle(tree_node* node);
 void rotate_right(tree_node** root, tree_node* x);
 void rotate_left(tree_node** root, tree_node* x);
 void transplant(tree_node** root, tree_node* u, tree_node* v);
+void delete_fix(tree_node** root, tree_node* x);
 
 //----------------------------------------------
 
 static tree_node nil_node;
-nil_node.color = 'b';
 
 tree_node* root = NULL;
 static tree_node* nil = &nil_node;
@@ -219,7 +219,7 @@ tree_node* tree_min(tree_node* z){
         y = x;
         x = x->left;
     }
-
+    print_node(y);
     return y;
 }
 
@@ -237,7 +237,7 @@ void delete_node(tree_node** root, tree_node* z){
         transplant(root, z, z->left);
     }else{
         //set y to be successor of z
-        y = tree_min(z);
+        y = tree_min(z->right);
         y_orig_color = y->color;
         x = y->right;
         if(y->parent == z){
@@ -255,6 +255,7 @@ void delete_node(tree_node** root, tree_node* z){
 
     if(y_orig_color == 'b'){
         //call delete fixup
+        delete_fix(root,x);
     }
     
 }
@@ -271,7 +272,7 @@ void delete_fix(tree_node** root, tree_node* x){
             if(w->color == 'r'){
                 w->color = 'b';
                 x->parent->color = 'r';
-                left_rotate(root,x->parent);
+                rotate_left(root,x->parent);
                 w = x->parent->right;
             }
 
@@ -281,14 +282,14 @@ void delete_fix(tree_node** root, tree_node* x){
             }else if(w->right->color == 'b'){
                 w->left->color = 'b';
                 w->color = 'r';
-                right_rotate(root, w);
+                rotate_right(root, w);
                 w = x->parent->right;
             }
 
             w->color = x->parent->color;
             x->parent->color = 'b';
             w->right->color = 'b';
-            left_rotate(root,x->parent);
+            rotate_left(root,x->parent);
             x = *root;
         }else{
             //this is the symmetric case, here: x is the right child
@@ -296,7 +297,7 @@ void delete_fix(tree_node** root, tree_node* x){
             if(w->color == 'r'){
                 w->color = 'b';
                 x->parent->color = 'r';
-                right_rotate(root,x->parent);
+                rotate_right(root,x->parent);
                 w = x->parent->left;
             }
 
@@ -306,14 +307,14 @@ void delete_fix(tree_node** root, tree_node* x){
             }else if(w->left->color == 'b'){
                 w->right->color = 'b';
                 w->color = 'r';
-                left_rotate(root, w);
+                rotate_left(root, w);
                 w = x->parent->left;
             }
 
             w->color = x->parent->color;
             x->parent->color = 'b';
             w->left->color = 'b';
-            right_rotate(root,x->parent);
+            rotate_right(root,x->parent);
             x = *root;
         }
         x->color = 'b';
@@ -331,7 +332,24 @@ tree_node* find_uncle(tree_node* node){
     return node->parent->parent->left;
 }
 
-
+tree_node* search_ptr(tree_node **root, void* ptr){
+    //tree_node* y = nil;
+    tree_node* x = *root;
+    
+    //find where new node is to be inserted
+    while(x != nil){
+        
+        //y=x;
+        if(ptr >= x->i->low && ptr <= x->i->high){
+            return x;
+        }else if(ptr < x->i->low){
+            x = x->left;
+        }else{
+            x = x->right;
+        }
+    }
+    return NULL;
+}
 
 //bellow is the printing tree function
 void print_inorder(tree_node* root, int level){
@@ -348,77 +366,57 @@ void print_inorder(tree_node* root, int level){
     print_inorder(root->right, level + 1);
 }
 
-/*
-Helper method for printing the tree
-*/
-int _print_t(tree_node *tree, int is_left, int offset, int depth, char s[50][255])
-{
-    char b[50];
-    int width = 30;
-
-    if (tree != nil) return 0;
-
-    sprintf(b, "%p==%p", tree->i->low,tree->i->high);
-
-    int left  = _print_t(tree->left,  1, offset,                depth + 1, s);
-    int right = _print_t(tree->right, 0, offset + left + width, depth + 1, s);
-
-#ifdef COMPACT
-    for (int i = 0; i < width; i++)
-        s[depth][offset + left + i] = b[i];
-
-    if (depth && is_left) {
-
-        for (int i = 0; i < width + right; i++)
-            s[depth - 1][offset + left + width/2 + i] = '-';
-
-        s[depth - 1][offset + left + width/2] = '.';
-
-    } else if (depth && !is_left) {
-
-        for (int i = 0; i < left + width; i++)
-            s[depth - 1][offset - width/2 + i] = '-';
-
-        s[depth - 1][offset + left + width/2] = '.';
-    }
-#else
-    for (int i = 0; i < width; i++)
-        s[2 * depth][offset + left + i] = b[i];
-
-    if (depth && is_left) {
-
-        for (int i = 0; i < width + right; i++)
-            s[2 * depth - 1][offset + left + width/2 + i] = '-';
-
-        s[2 * depth - 1][offset + left + width/2] = '+';
-        s[2 * depth - 1][offset + left + width + right + width/2] = '+';
-
-    } else if (depth && !is_left) {
-
-        for (int i = 0; i < left + width; i++)
-            s[2 * depth - 1][offset - width/2 + i] = '-';
-
-        s[2 * depth - 1][offset + left + width/2] = '+';
-        s[2 * depth - 1][offset - width/2 - 1] = '+';
-    }
-#endif
-
-    return left + width + right;
+void print_node(tree_node* node){
+    printf("TreeNode: low: %p, high: %p, and color: %c\n", 
+        node->i->low, node->i->high,node->color);
 }
-/*
-This method prints the tree
-*/
-void print_t(tree_node *tree)
-{
-    char s[50][255];
-    for (int i = 0; i < 50; i++)
-        sprintf(s[i], "%80s", " ");
 
-    _print_t(tree, 0, 0, 0, s);
 
-    for (int i = 0; i < 50; i++)
-        printf("%s\n", s[i]);
-}
+int height(struct tree_node* node) 
+{ 
+    if (node==nil) 
+        return 0; 
+    else
+    { 
+        /* compute the height of each subtree */
+        int lheight = height(node->left); 
+        int rheight = height(node->right); 
+  
+        /* use the larger one */
+        if (lheight > rheight) 
+            return(lheight+1); 
+        else return(rheight+1); 
+    } 
+} 
+
+/* Print nodes at a given level */
+void printGivenLevel(struct tree_node* root, int level) 
+{ 
+    if (root == nil) 
+        return; 
+    if (level == 1) 
+        print_node(root);
+    else if (level > 1) 
+    { 
+        printGivenLevel(root->left, level-1); 
+        printGivenLevel(root->right, level-1); 
+    } 
+} 
+
+void print_lvlorder(struct tree_node* root) 
+{ 
+    int h = height(root); 
+    int i; 
+    for (i=1; i<=h; i++) 
+    {    
+        printf("level %d:\n",i-1);
+        printGivenLevel(root, i); 
+    } 
+} 
+  
+
+
+
 
 
 // int main(){

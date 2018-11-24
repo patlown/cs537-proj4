@@ -97,8 +97,15 @@ This function will print the tree in level order
 */
 void print_inorder(tree_node* root, int level);
 
+void print_lvlorder(tree_node* root);
 
-void print_t(tree_node *tree);
+/*
+This function will search for the node that contains this ptr address, if not found return NULL
+*/
+tree_node* search_ptr(tree_node **root, void* ptr);
+
+void print_node(tree_node* node);
+
 
 
 #endif

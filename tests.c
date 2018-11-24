@@ -49,6 +49,27 @@ void basic_tree_test(){
 
 
     print_inorder(*root,0);
+    print_lvlorder(*root);
+    void *ptr = (void*)z;
+    tree_node *p = search_ptr(root,ptr);
+    //printf("%p",p);
+    if(p == NULL){
+        printf("\ncase 1: ptr:%p doest found\n",ptr);
+    }else if(ptr!= p->i->low){
+        printf("\ncase 2: ptr:%p\n",ptr);
+        print_node(p);
+    }else{
+        printf("\nfound:\n");
+        print_node(p);
+        delete_node(root,p);
+        print_inorder(*root,0);
+        print_lvlorder(*root);
+    }
+   
+    //delete_node(root,p);
+    //print_inorder(*root,0);
+    //print_lvlorder(*root);
+  
     //print_t(*root);
 
 }
