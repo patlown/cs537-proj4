@@ -3,12 +3,14 @@
 #include "range_tree.h"
 
 void basic_tree_test();
+void test2();
+
 
 int main(){
 
     //addr_arithmetic();
-    basic_tree_test();
-    
+    //basic_tree_test();
+    test2();
     return 1;
 
     
@@ -72,6 +74,30 @@ void basic_tree_test(){
   
     //print_t(*root);
 
+}
+
+void test2(){
+    int tsize = 10;
+    int **ptrs = malloc(sizeof(*ptrs)*tsize);
+    tree_node** root = NULL;
+    root= init_root();
+    for(int i = 0; i < tsize; i++){
+        ptrs[i] = malloc(sizeof(**ptrs));
+        interval *temp = new_interval((void*)ptrs[i],sizeof(**ptrs));
+        insert_node(root, temp);
+
+    }
+    print_inorder(*root,0);
+    print_lvl(*root);
+    for(int i = 2; i < 6; i++){
+        void* p = search_ptr(root,ptrs[i]);
+
+        printf("\n\n\n\n%p   :     %p\n",p,((tree_node*)p)->i->low);
+        delete_node(root,(tree_node*)search_ptr(root,ptrs[i]));
+        print_lvl(*root);
+        
+    }
+    print_inorder(*root,0);
 }
 
 

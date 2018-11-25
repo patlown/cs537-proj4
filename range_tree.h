@@ -104,7 +104,10 @@ This function will search for the node that contains this ptr address, if not fo
 */
 tree_node* search_ptr(tree_node **root, void* ptr);
 
+
 void print_node(tree_node* node);
+
+void print_lvl(struct tree_node* root);
 
 
 

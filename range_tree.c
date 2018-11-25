@@ -1,5 +1,6 @@
 #include "range_tree.h"
-
+#include "queue.h"
+#include <math.h>
 /*
     Private function headers
 */
@@ -16,6 +17,10 @@ static tree_node nil_node;
 
 tree_node* root = NULL;
 static tree_node* nil = &nil_node;
+
+//------------ test struct
+Queue *q;
+//----------
 
 tree_node** init_root(){
     root = nil;
@@ -211,17 +216,13 @@ void transplant(tree_node** root, tree_node* u, tree_node* v){
  This function will return the in order successor for a node, it assumes z has a
  right child
 */
-tree_node* tree_min(tree_node* z){
-    tree_node* x = z->right;
-    tree_node* y;
-
-    while(x != nil){
-        y = x;
+tree_node* tree_min(tree_node* x){
+    while(x->left != nil){
         x = x->left;
     }
-    print_node(y);
-    return y;
+    return x;
 }
+
 
 void delete_node(tree_node** root, tree_node* z){
     tree_node* x;
@@ -241,7 +242,7 @@ void delete_node(tree_node** root, tree_node* z){
         y_orig_color = y->color;
         x = y->right;
         if(y->parent == z){
-            x->parent = y;
+            //x->parent = y;
         }else{
             transplant(root,y,y->right);
             y->right = z->right;
@@ -265,6 +266,8 @@ when deleting a node.
 */
 void delete_fix(tree_node** root, tree_node* x){
     tree_node* w;
+    printf("check\n\n");
+    print_node(x);
     while(x != *root && x->color == 'b'){
         //check if x is the left child
         if(x == x->parent->left){
@@ -285,14 +288,16 @@ void delete_fix(tree_node** root, tree_node* x){
                 rotate_right(root, w);
                 w = x->parent->right;
             }
-
+            
             w->color = x->parent->color;
             x->parent->color = 'b';
             w->right->color = 'b';
             rotate_left(root,x->parent);
             x = *root;
+            
         }else{
             //this is the symmetric case, here: x is the right child
+            //printf("check!\n");
             w = x->parent->left;
             if(w->color == 'r'){
                 w->color = 'b';
@@ -310,15 +315,17 @@ void delete_fix(tree_node** root, tree_node* x){
                 rotate_left(root, w);
                 w = x->parent->left;
             }
-
+            
             w->color = x->parent->color;
             x->parent->color = 'b';
             w->left->color = 'b';
             rotate_right(root,x->parent);
             x = *root;
+            
         }
-        x->color = 'b';
+        
     }
+    x->color = 'b';
 
 }
 
@@ -413,9 +420,31 @@ void print_lvlorder(struct tree_node* root)
         printGivenLevel(root, i); 
     } 
 } 
-  
 
 
+void print_lvl(struct tree_node* root){
+    q = init_q(10000);
+    int h = height(root); 
+    int i; 
+    add(q,(void*)root);
+    for (i=1; i<=h; i++) 
+    {    
+        printf("level %d:\n",i-1);
+        for(int j = 0; j < pow(2,i-1);j++){
+            tree_node *pt = (tree_node*)pull(q);
+            printf("%d:   ",j);
+            if(pt==nil){
+                printf("nothing\n");
+                add(q,nil);
+                add(q,nil);
+            }else{
+                print_node(pt);
+                add(q,pt->left);
+                add(q,pt->right);
+            }
+        }
+    } 
+}
 
 
 
