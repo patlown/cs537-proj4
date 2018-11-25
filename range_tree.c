@@ -1,6 +1,5 @@
 #include "range_tree.h"
 #include "queue.h"
-#include <math.h>
 /*
     Private function headers
 */
@@ -20,6 +19,8 @@ static tree_node* nil = &nil_node;
 
 //------------ test struct
 Queue *q;
+static tree_node null_node;
+static tree_node* null= &null_node;
 //----------
 
 tree_node** init_root(){
@@ -35,9 +36,9 @@ tree_node* new_tree_node(interval* i){
     tree_node* node = malloc(sizeof(tree_node));
     node->i = i;
     node->max = i->high;
-    node->left = NULL;
-    node->right = NULL;
-    node->parent = NULL;
+    node->left = nil;
+    node->right = nil;
+    node->parent = nil;
     node->color = 'r';
     return node;
 }
@@ -227,9 +228,24 @@ tree_node* tree_min(tree_node* x){
 void delete_node(tree_node** root, tree_node* z){
     tree_node* x;
     tree_node* y;
-
+    print_node(z);
     y = z;
     char y_orig_color = y->color;
+    // if(z->left == nil && z->right == nil){
+    //     //z is leaf node
+    //     if(z==*root){
+    //         *root = NULL;
+    //         return;
+    //     }else{
+    //         if(z == z->parent->right){
+    //             z->parent->right = nil;
+    //         }else{
+    //             z->parent->left = nil;
+    //         }
+    //         nil->parent = z->parent;
+    //         x = nil;
+    //     }
+    // }else 
     if(z->left == nil){
         x = z->right;
         transplant(root,z,z->right);
@@ -237,12 +253,13 @@ void delete_node(tree_node** root, tree_node* z){
         x = z->left;
         transplant(root, z, z->left);
     }else{
+        printf("!!!!!!!!!!!!!!\n");
         //set y to be successor of z
         y = tree_min(z->right);
         y_orig_color = y->color;
         x = y->right;
         if(y->parent == z){
-            //x->parent = y;
+            x->parent = y;
         }else{
             transplant(root,y,y->right);
             y->right = z->right;
@@ -256,7 +273,14 @@ void delete_node(tree_node** root, tree_node* z){
 
     if(y_orig_color == 'b'){
         //call delete fixup
+        if(x == nil){
+            printf("fix nil!\n");
+        }else{
+            print_node(x);
+        }
+        
         delete_fix(root,x);
+        
     }
     
 }
@@ -266,8 +290,8 @@ when deleting a node.
 */
 void delete_fix(tree_node** root, tree_node* x){
     tree_node* w;
+
     printf("check\n\n");
-    print_node(x);
     while(x != *root && x->color == 'b'){
         //check if x is the left child
         if(x == x->parent->left){
@@ -288,13 +312,13 @@ void delete_fix(tree_node** root, tree_node* x){
                 rotate_right(root, w);
                 w = x->parent->right;
             }
-            
+            else{
             w->color = x->parent->color;
             x->parent->color = 'b';
             w->right->color = 'b';
             rotate_left(root,x->parent);
             x = *root;
-            
+            }
         }else{
             //this is the symmetric case, here: x is the right child
             //printf("check!\n");
@@ -315,17 +339,18 @@ void delete_fix(tree_node** root, tree_node* x){
                 rotate_left(root, w);
                 w = x->parent->left;
             }
-            
+            else{
             w->color = x->parent->color;
             x->parent->color = 'b';
             w->left->color = 'b';
             rotate_right(root,x->parent);
             x = *root;
-            
+            }
         }
         
     }
     x->color = 'b';
+    printf("fixed\n");
 
 }
 
@@ -360,7 +385,6 @@ tree_node* search_ptr(tree_node **root, void* ptr){
 
 //bellow is the printing tree function
 void print_inorder(tree_node* root, int level){
-
    if(root == nil){
         return;
     }
@@ -433,10 +457,13 @@ void print_lvl(struct tree_node* root){
         for(int j = 0; j < pow(2,i-1);j++){
             tree_node *pt = (tree_node*)pull(q);
             printf("%d:   ",j);
-            if(pt==nil){
+            if(pt == null){
                 printf("nothing\n");
-                add(q,nil);
-                add(q,nil);
+            }
+            else if(pt==nil){
+                printf("nil\n");
+                add(q,null);
+                add(q,null);
             }else{
                 print_node(pt);
                 add(q,pt->left);

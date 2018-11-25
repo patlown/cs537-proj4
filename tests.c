@@ -77,7 +77,7 @@ void basic_tree_test(){
 }
 
 void test2(){
-    int tsize = 10;
+    int tsize = 20;
     int **ptrs = malloc(sizeof(*ptrs)*tsize);
     tree_node** root = NULL;
     root= init_root();
@@ -89,15 +89,17 @@ void test2(){
     }
     print_inorder(*root,0);
     print_lvl(*root);
-    for(int i = 2; i < 6; i++){
-        void* p = search_ptr(root,ptrs[i]);
+    int arr[] = {3,9,2,1,5,8,4,7,6,11,15,18,13};
+    for(int i = 0; i<12; i++){
+        printf("\n\n-----------------------------%d---------------------------\n\n",i);
+        void* p = search_ptr(root,ptrs[arr[i]]);
 
         printf("\n\n\n\n%p   :     %p\n",p,((tree_node*)p)->i->low);
-        delete_node(root,(tree_node*)search_ptr(root,ptrs[i]));
+        delete_node(root,(tree_node*)p);
         print_lvl(*root);
-        
+        print_inorder(*root,0);
     }
-    print_inorder(*root,0);
+    //print_inorder(*root,0);
 }
 
 
