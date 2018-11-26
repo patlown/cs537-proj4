@@ -1,5 +1,6 @@
 #include "range_tree.h"
 #include "queue.h"
+
 /*
     Private function headers
 */
