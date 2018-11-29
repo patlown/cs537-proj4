@@ -1,5 +1,8 @@
-#ifndef 537MALLOC_H
-#define 537MALLOC_H
+#ifndef MALLOC_H_537
+#define MALLOC_H_537
+
+#include <stdlib.h>
+#include <stdio.h>
 
 /*
 In addition to actually allocating the memory by calling malloc(), this function will record a tuple (addr, len), 
@@ -37,4 +40,4 @@ void memcheck537(void *ptr, size_t size);
 
 
 
-#endif 537MALLOC_H
+#endif 

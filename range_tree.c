@@ -36,7 +36,7 @@ tree_node* new_tree_node(interval* i){
     
     tree_node* node = malloc(sizeof(tree_node));
     node->i = i;
-    node->max = i->high;
+    node->max = i->low+i->len-1;
     node->left = nil;
     node->right = nil;
     node->parent = nil;
@@ -51,7 +51,7 @@ interval* new_interval(void* ptr, size_t size){
     /*
         given the size, we want to add that size to the pointer, cast to char so we only increment exactly the number of bytes needed
     */
-    i->high = ((char*)ptr) + size;
+    i->len = size;
 
     return i;
 }
@@ -373,7 +373,7 @@ tree_node* search_ptr(tree_node **root, void* ptr){
     while(x != nil){
         
         //y=x;
-        if(ptr >= x->i->low && ptr <= x->i->high){
+        if(ptr >= x->i->low && ptr <= (x->i->low+x->i->len-1)){
             return x;
         }else if(ptr < x->i->low){
             x = x->left;
@@ -393,14 +393,14 @@ void print_inorder(tree_node* root, int level){
     print_inorder(root->left, level + 1);
 
     printf("The current tree_node has low: %p, high: %p, level: %d and color: %c\n", 
-        root->i->low, root->i->high, level, root->color);
+        root->i->low, root->i->low+root->i->len-1, level, root->color);
 
     print_inorder(root->right, level + 1);
 }
 
 void print_node(tree_node* node){
     printf("TreeNode: low: %p, high: %p, and color: %c\n", 
-        node->i->low, node->i->high,node->color);
+        node->i->low, node->i->low+node->i->len-1,node->color);
 }
 
 

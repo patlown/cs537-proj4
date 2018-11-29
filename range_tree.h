@@ -19,7 +19,7 @@ This will be used with as a data field for interval tree structure nodes.
 struct interval
 {
     void* low;
-    void* high;
+    int len;
     bool freed;
 
 };
