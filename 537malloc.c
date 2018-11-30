@@ -1,10 +1,38 @@
 #include "537malloc.h"
+static tree_node **root =NULL;
+
+
+void malloccheck(void *ptr);
+
 
 /*
 this function will all malloc and record a tuple (addr, len), 
 throw warning for a size parameter of zero length but continue executing. 
 */
-void* malloc537(size_t size);
+void *malloc537(size_t size)
+{
+
+    if (size == 0)
+    {
+        fprintf(stderr, "Malloc size of 0!\n");
+    }
+    void *ptr = malloc(size);
+    malloccheck(ptr);
+
+    //to-do first malloc: initialize the tree
+    tree_node *n;
+    while ((n = search_range(root, ptr, size)))
+    {
+        if(!n->freed){
+            fprintf(stderr,"Overlapping malloc of unfreed memory!\n");
+            exit(1);
+        }
+        delete_node(root,n);
+    }
+    interval *in = new_interval(ptr,size);
+    insert_node(root,in);
+    return ptr;
+}
 
 /*
 This function will first check to make sure that freeing the memory specified by ptr makes sense, then will call free() to do the actual free. 
@@ -30,4 +58,15 @@ void *realloc(void *ptr, size_t size);
 This function checks to see the address range specified by address ptr and length size are fully within a range allocated by malloc537() and memory not yet freed by free537(). 
 When an error is detected, then print out a detailed and informative error message and exit the program (with a -1 status). 
 */
-void memcheck537(void *ptr, size_t size);
+void memcheck537(void *ptr, size_t size)
+{
+}
+
+
+void malloccheck(void *ptr){
+    if (ptr == NULL)
+    {
+        fprintf(stderr, "cannot allocate mem\n");
+        exit(1);
+    }
+}

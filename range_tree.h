@@ -20,7 +20,7 @@ struct interval
 {
     void* low;
     int len;
-    bool freed;
+    //bool freed;
 
 };
 
@@ -36,6 +36,7 @@ struct tree_node
     void* max;
     tree_node *left,*parent,*right;
     char color;
+    bool freed;
 };
 
 /*
@@ -91,7 +92,10 @@ any of the intervals currently in the tree.  It will return 1 if an overlapping 
 and 0 if no overlapping intervals are found.
 Complexity: O(logn) time for check
 */
-int overlap_search(tree_node *root, interval *i);
+tree_node* search_range(tree_node **root, void* ptr, size_t size);
+
+
+
 
 /*
 This function will print the tree in level order

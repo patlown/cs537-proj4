@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "range_tree.h"
 
 /*
 In addition to actually allocating the memory by calling malloc(), this function will record a tuple (addr, len), 

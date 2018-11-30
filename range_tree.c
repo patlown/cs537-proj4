@@ -36,7 +36,7 @@ tree_node* new_tree_node(interval* i){
     
     tree_node* node = malloc(sizeof(tree_node));
     node->i = i;
-    node->max = i->low+i->len-1;
+    //node->max = i->low+i->len-1;
     node->left = nil;
     node->right = nil;
     node->parent = nil;
@@ -383,6 +383,37 @@ tree_node* search_ptr(tree_node **root, void* ptr){
     }
     return NULL;
 }
+
+int is_overlap(interval *i1, interval *i2) 
+{ 
+    if(i1->low <= (i2->low+i2->len-1) && i2->low <=  (i1->low + i1->len-1)){
+        return 1;
+    }
+    return 0;
+} 
+
+tree_node* search_range(tree_node **root, void* ptr, size_t size){
+    tree_node* x = *root;
+    interval *in = malloc(sizeof(*in));
+    in->low = ptr;
+    in->len = size;
+    
+    //find where new node is to be inserted
+    while(x != nil){
+        
+        //y=x;
+        if(is_overlap(in,x->i)){
+            return x;
+        }else if(ptr < x->i->low){
+            x = x->left;
+        }else{
+            x = x->right;
+        }
+    }
+    free(in);
+    return NULL;
+}
+
 
 //bellow is the printing tree function
 void print_inorder(tree_node* root, int level){
