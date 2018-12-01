@@ -53,7 +53,7 @@ void basic_tree_test(){
     // //printf("root's low: %p, root's high: %p, root's max: %p\n",root->i->low, root->i->high,root->max);
     // root = insert_node(root,zi);
     // root = insert_node(root,wi);
-    root= init_root();
+    init_root(root);
     insert_node(root,xi);
     insert_node(root, yi);
     insert_node(root,zi);
@@ -90,7 +90,7 @@ void test2(){
     int tsize = 20;
     int **ptrs = malloc(sizeof(*ptrs)*tsize);
     tree_node** root = NULL;
-    root= init_root();
+    init_root(root);
     for(int i = 0; i < tsize; i++){
         ptrs[i] = malloc(sizeof(**ptrs));
         interval *temp = new_interval((void*)ptrs[i],sizeof(**ptrs));

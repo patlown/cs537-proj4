@@ -15,7 +15,7 @@ void delete_fix(tree_node** root, tree_node* x);
 
 static tree_node nil_node;
 
-tree_node* root = NULL;
+// tree_node* root = NULL;
 static tree_node* nil = &nil_node;
 
 //------------ test struct
@@ -24,12 +24,12 @@ static tree_node null_node;
 static tree_node* null= &null_node;
 //----------
 
-tree_node** init_root(){
-    root = nil;
+void init_root(tree_node** root){
+    *root = nil;
     //root->i = new_interval(NULL,0);
-    root->color = 'b';
+    *root->color = 'b';
 
-    return &root;
+    // return &root;
 }
 
 tree_node* new_tree_node(interval* i){
