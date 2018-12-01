@@ -91,6 +91,7 @@ void insert_node(tree_node **root, interval *i){
     //if y is still nil, then new node is the root
     new->parent = y;
     if(y == nil){
+        //TODO: fix this, nil is getting set to new here
         *root = new;
     }else if(new->i->low < y->i->low){
         y->left = new;
