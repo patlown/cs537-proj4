@@ -1,9 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "range_tree.h"
+#include "537malloc.h"
+#include <assert.h>
 
 void basic_tree_test();
 void test2();
+void malloc_check();
 
 
 int main(){
