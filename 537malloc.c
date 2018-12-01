@@ -1,5 +1,6 @@
 #include "537malloc.h"
-static tree_node **root =NULL;
+#include <assert.h>
+static tree_node **root = NULL;
 
 
 void malloccheck(void *ptr);
@@ -17,14 +18,21 @@ void *malloc537(size_t size)
         fprintf(stderr, "Malloc size of 0!\n");
     }
     void *ptr = malloc(size);
+    printf("ptr:%p\n\n",ptr);
     malloccheck(ptr);
-    interval *in;
-
+    interval *in = new_interval(ptr,size);
+    printf("in: %p %d\n",in->low,in->len);
     //to-do first malloc: initialize the tree
     if(root == NULL){
-        root = init_root(root);
+        printf("1\n");
+        root = init_root();
+        //assert(root!=NULL);
+        printf("2\n");
         in = new_interval(ptr,size);
+        printf("3\n");
         insert_node(root,in);
+        printf("4\n");
+        return ptr;
     }
 
     tree_node *n;
@@ -49,7 +57,7 @@ void *malloc537(size_t size)
     //print function for testing, REMOVE
     print_inorder(*root,0);
 
-    in = new_interval(ptr,size);
+    
     //insert our new node into the tree.
     insert_node(root,in);
     return ptr;
@@ -67,8 +75,23 @@ When an error is detected, this function prints out a detailed and informative e
 If all checks pass,then this function indicates that the tuple for addr = ptr is no longer allocated, and then calls free()
 */
 void free537(void *ptr){
-
+    tree_node *n = search_ptr(root,ptr);
+    
     //check for issue 1.
+    if(n == NULL || (n->freed && ptr!=n->i->low)){
+        
+    }
+    //issue3: double free
+    else if(n->freed && n->freed && ptr==n->i->low){
+
+    }
+    //issue2
+    else if(ptr!=n->i->low){
+
+    }
+    else{
+        n->freed = true;
+    }
 
 
 }
@@ -78,7 +101,9 @@ If ptr is NULL,then this follows the specification of malloc537() above. If size
 Otherwise, in addition to changing the memory allocation by calling realloc(), this function will first check to see if there was a tuple for the (addr = ptr, and removes that tuple, 
 then adds a new one where addr is the return value from realloc() and len is size
 */
-void *realloc(void *ptr, size_t size);
+void *realloc(void *ptr, size_t size){
+     return NULL;
+}
 
 /*
 This function checks to see the address range specified by address ptr and length size are fully within a range allocated by malloc537() and memory not yet freed by free537(). 
@@ -86,6 +111,7 @@ When an error is detected, then print out a detailed and informative error messa
 */
 void memcheck537(void *ptr, size_t size)
 {
+    return;
 }
 
 
@@ -95,4 +121,9 @@ void malloccheck(void *ptr){
         fprintf(stderr, "cannot allocate mem\n");
         exit(1);
     }
+}
+
+void printtree(){
+    printf("!!");
+    print_lvlorder(*root);
 }

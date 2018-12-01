@@ -54,7 +54,8 @@ tree_node* new_tree_node(interval* i);
 /*
 This function initializes the root node of the tree
 */
-tree_node** init_root(tree_node** root);
+//tree_node** init_root(tree_node** root);
+tree_node** init_root();
 
 /*
 This function will insert a node in the tree based on the lower value of interval passed in.  The implementation

@@ -15,7 +15,7 @@ void delete_fix(tree_node** root, tree_node* x);
 
 static tree_node nil_node;
 
-// tree_node* root = NULL;
+tree_node* root = NULL;
 static tree_node* nil = &nil_node;
 
 //------------ test struct
@@ -24,12 +24,12 @@ static tree_node null_node;
 static tree_node* null= &null_node;
 //----------
 
-tree_node** init_root(tree_node** root){
-    root = &nil;
+tree_node** init_root(){
+    root = nil;
     //root->i = new_interval(NULL,0);
-    (*root)->color = 'b';
+    root->color = 'b';
 
-    return root;
+    return &root;
 }
 
 tree_node* new_tree_node(interval* i){
@@ -91,7 +91,6 @@ void insert_node(tree_node **root, interval *i){
     //if y is still nil, then new node is the root
     new->parent = y;
     if(y == nil){
-        //TODO: fix this, nil is getting set to new here
         *root = new;
     }else if(new->i->low < y->i->low){
         y->left = new;
@@ -392,8 +391,7 @@ int is_overlap(interval *i1, interval *i2)
     }
     return 0;
 } 
-
-tree_node* search_range(tree_node **root, void* ptr, size_t size){
+ tree_node* search_range(tree_node **root, void* ptr, size_t size){
     tree_node* x = *root;
     interval *in = malloc(sizeof(*in));
     in->low = ptr;
@@ -416,6 +414,19 @@ tree_node* search_range(tree_node **root, void* ptr, size_t size){
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+//----------------------------------------------------------------//
 //bellow is the printing tree function
 void print_inorder(tree_node* root, int level){
    if(root == nil){

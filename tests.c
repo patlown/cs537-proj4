@@ -24,6 +24,7 @@ void malloc_check(){
     tree_node* x = malloc537(sizeof(tree_node));
     tree_node* y = malloc537(sizeof(tree_node));
     assert(x != NULL);
+    printtree();
 
 }
 
@@ -91,11 +92,14 @@ void test2(){
     int tsize = 20;
     int **ptrs = malloc(sizeof(*ptrs)*tsize);
     tree_node** root = NULL;
-    init_root(root);
+    root = init_root();
+    //printf("test2:root : %p\n",root);
     for(int i = 0; i < tsize; i++){
         ptrs[i] = malloc(sizeof(**ptrs));
         interval *temp = new_interval((void*)ptrs[i],sizeof(**ptrs));
+        //printf("successfully init\n");
         insert_node(root, temp);
+        //printf("inserted!\n");
 
     }
     print_inorder(*root,0);
@@ -103,6 +107,7 @@ void test2(){
     int arr[] = {3,9,2,1,5,8,4,7,6,11,15,18,13};
     for(int i = 0; i<12; i++){
         printf("\n\n-----------------------------%d---------------------------\n\n",i);
+        
         void* p = search_ptr(root,ptrs[arr[i]]);
 
         printf("\n\n\n\n%p   :     %p\n",p,((tree_node*)p)->i->low);
