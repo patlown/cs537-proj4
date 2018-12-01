@@ -25,7 +25,7 @@ static tree_node* null= &null_node;
 //----------
 
 void init_root(tree_node** root){
-    *root = nil;
+    root = &nil;
     //root->i = new_interval(NULL,0);
     *root->color = 'b';
 
