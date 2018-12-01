@@ -46,6 +46,9 @@ void *malloc537(size_t size)
         delete_node(root,n);
     }
 
+    //print function for testing, REMOVE
+    print_inorder(*root,0);
+
     in = new_interval(ptr,size);
     //insert our new node into the tree.
     insert_node(root,in);
