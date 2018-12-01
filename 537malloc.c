@@ -18,18 +18,36 @@ void *malloc537(size_t size)
     }
     void *ptr = malloc(size);
     malloccheck(ptr);
+    interval *in;
 
     //to-do first malloc: initialize the tree
+    if(root == NULL){
+        init_root(root);
+        in = new_interval(ptr,size);
+        insert_node(root,in);
+    }
+
     tree_node *n;
+    //if there is a node in the range that we see and it isn't freed, delete it
     while ((n = search_range(root, ptr, size)))
     {
         if(!n->freed){
             fprintf(stderr,"Overlapping malloc of unfreed memory!\n");
             exit(1);
         }
+        /*
+        check for case where free node, is before malloc'd range
+        integer example: if n's tuple is (5,5) and new tuple is (7,8), we want to keep a tuple 5,1 and add new (7,8)
+        */
+        if(n->i->low < ptr){
+            n->i->len = (size_t)((char*)ptr - (char*)(n->i->low));
+            break;
+        }
         delete_node(root,n);
     }
-    interval *in = new_interval(ptr,size);
+
+    in = new_interval(ptr,size);
+    //insert our new node into the tree.
     insert_node(root,in);
     return ptr;
 }
@@ -45,7 +63,12 @@ Some of the error conditions that it checks for include:
 When an error is detected, this function prints out a detailed and informative error message and exits the program (with a -1 status). 
 If all checks pass,then this function indicates that the tuple for addr = ptr is no longer allocated, and then calls free()
 */
-void free537(void *ptr);
+void free537(void *ptr){
+
+    //check for issue 1.
+
+
+}
 
 /*
 If ptr is NULL,then this follows the specification of malloc537() above. If size is zero and ptr is not NULL,then this follows the specification of free537() above. 

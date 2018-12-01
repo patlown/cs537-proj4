@@ -10,10 +10,17 @@ int main(){
 
     //addr_arithmetic();
     //basic_tree_test();
-    test2();
+    //test2();
+    malloc_check();
     return 1;
 
     
+}
+
+void malloc_check(){
+    tree_node* x = malloc537(sizeof(tree_node));
+    assert(x != NULL);
+
 }
 
 void basic_tree_test(){
