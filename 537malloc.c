@@ -22,7 +22,7 @@ void *malloc537(size_t size)
 
     //to-do first malloc: initialize the tree
     if(root == NULL){
-        init_root(root);
+        root = init_root(root);
         in = new_interval(ptr,size);
         insert_node(root,in);
     }
