@@ -22,6 +22,7 @@ int main(){
 
 void malloc_check(){
     tree_node* x = malloc537(sizeof(tree_node));
+    tree_node* y = malloc537(sizeof(tree_node));
     assert(x != NULL);
 
 }
