@@ -31,7 +31,7 @@ If ptr is NULL,then this follows the specification of malloc537() above. If size
 Otherwise, in addition to changing the memory allocation by calling realloc(), this function will first check to see if there was a tuple for the (addr = ptr, and removes that tuple, 
 then adds a new one where addr is the return value from realloc() and len is size
 */
-void *realloc(void *ptr, size_t size);
+void *realloc537(void *ptr, size_t size);
 
 /*
 This function checks to see the address range specified by address ptr and length size are fully within a range allocated by malloc537() and memory not yet freed by free537(). 

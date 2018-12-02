@@ -24,7 +24,15 @@ void malloc_check(){
     tree_node* x = malloc537(sizeof(tree_node));
     tree_node* y = malloc537(sizeof(tree_node));
     assert(x != NULL);
+    printf("\n\n-----------------------------------\n");
     printtree();
+    printf("-----------------------------------\n\n");
+    //x = realloc537(x,sizeof(*x)*2);
+    //x = realloc537(x,0);
+    tree_node* z = realloc537(NULL,sizeof(*z));
+    printf("\n\n-----------------------------------\n");
+    printtree();
+    printf("-----------------------------------\n\n");
 
 }
 
