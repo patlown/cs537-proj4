@@ -1,5 +1,6 @@
+/*Authors: Ge Xu, Patrick Lown 
+*/
 #include "range_tree.h"
-#include "queue.h"
 
 /*
     Private function headers
@@ -20,9 +21,9 @@ tree_node *root = NULL;
 static tree_node *nil = &nil_node;
 
 //------------ test struct
-Queue *q;
-static tree_node null_node;
-static tree_node *null = &null_node;
+//Queue *q;
+//static tree_node null_node;
+//static tree_node *null = &null_node;
 //----------
 
 tree_node **init_root()
@@ -289,21 +290,6 @@ void delete_node(tree_node **root, tree_node *z)
     tree_node *y;
     y = z;
     char y_orig_color = y->color;
-    // if(z->left == nil && z->right == nil){
-    //     //z is leaf node
-    //     if(z==*root){
-    //         *root = NULL;
-    //         return;
-    //     }else{
-    //         if(z == z->parent->right){
-    //             z->parent->right = nil;
-    //         }else{
-    //             z->parent->left = nil;
-    //         }
-    //         nil->parent = z->parent;
-    //         x = nil;
-    //     }
-    // }else
     if (z->left == nil)
     {
         x = z->right;
@@ -339,15 +325,6 @@ void delete_node(tree_node **root, tree_node *z)
     if (y_orig_color == 'b')
     {
         //call delete fixup
-        if (x == nil)
-        {
-            printf("fix nil!\n");
-        }
-        else
-        {
-            print_node(x);
-        }
-
         delete_fix(root, x);
     }
 }
@@ -397,7 +374,6 @@ void delete_fix(tree_node **root, tree_node *x)
         else
         {
             //this is the symmetric case, here: x is the right child
-            //printf("check!\n");
             w = x->parent->left;
             if (w->color == 'r')
             {
@@ -486,7 +462,6 @@ tree_node *search_range(tree_node **root, void *ptr, size_t size)
     malloccheck(in);
     in->low = ptr;
     in->len = size;
-
     //find where new node is to be inserted
     while (x != nil)
     {
@@ -494,6 +469,7 @@ tree_node *search_range(tree_node **root, void *ptr, size_t size)
         //y=x;
         if (is_overlap(in, x->i))
         {
+            free(in);
             return x;
         }
         else if (ptr < x->i->low)
@@ -515,7 +491,7 @@ void malloccheck(void *ptr)
     if (ptr == NULL)
     {
         fprintf(stderr, "cannot allocate mem\n");
-        exit(1);
+        exit(-1);
     }
 }
 
@@ -621,4 +597,3 @@ void malloccheck(void *ptr)
 //         }
 //     }
 // }
-

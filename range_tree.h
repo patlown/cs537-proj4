@@ -1,10 +1,11 @@
+/*Authors: Ge Xu, Patrick Lown 
+*/
 #ifndef RANGE_TREE_H
 #define RANGE_TREE_H
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <math.h>
 
 typedef struct interval interval;
 typedef struct tree_node tree_node;

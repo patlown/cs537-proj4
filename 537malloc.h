@@ -1,3 +1,5 @@
+/*Authors: Ge Xu, Patrick Lown 
+*/
 #ifndef MALLOC_H_537
 #define MALLOC_H_537
 

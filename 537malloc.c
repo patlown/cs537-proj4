@@ -1,3 +1,5 @@
+/*Authors: Ge Xu, Patrick Lown 
+*/
 #include "537malloc.h"
 #include <assert.h>
 static tree_node **root = NULL;
@@ -16,21 +18,16 @@ void *malloc537(size_t size)
         fprintf(stderr, "Malloc size of 0!\n");
     }
     void *p = malloc(size);
-    //printf("ptr:%p\n\n", p);
     malloccheck(p);
     interval *in = new_interval(p, size);
-    //printf("in: %p %d\n", in->low, in->len);
+
     //to-do first malloc: initialize the tree
     if (root == NULL)
     {
-        printf("1\n");
         root = init_root();
         //assert(root!=NULL);
-        printf("2\n");
         in = new_interval(p, size);
-        printf("3\n");
         insert_node(root, in);
-        printf("4\n");
         return p;
     }
 
@@ -41,7 +38,7 @@ void *malloc537(size_t size)
         if (!n->freed)
         {
             fprintf(stderr, "Overlapping malloc of unfreed memory!\n");
-            exit(1);
+            exit(-1);
         }
         /*
         check for case where free node, is before malloc'd range
@@ -56,7 +53,7 @@ void *malloc537(size_t size)
     }
 
     //print function for testing, REMOVE
-    print_inorder(*root, 0);
+    //print_inorder(*root, 0);
 
     //insert our new node into the tree.
     insert_node(root, in);
@@ -76,26 +73,32 @@ If all checks pass,then this function indicates that the tuple for addr = ptr is
 */
 void free537(void *ptr)
 {
+    if (root == NULL)
+    {
+        root = init_root();
+    }
     tree_node *n = search_ptr(root, ptr);
 
     //check for issue 1.
     if (n == NULL || (n->freed && ptr != n->i->low))
     {
         fprintf(stderr, "Failed!! Trying to free memory that has not be allocated!\n");
+        exit(-1);
     }
     //issue3: double free
     else if (n->freed && n->freed && ptr == n->i->low)
     {
         fprintf(stderr, "Failed!! Double Free!\n");
+        exit(-1);
     }
     //issue2
     else if (ptr != n->i->low)
     {
         fprintf(stderr, "Failed!! Given ptr is not the first byte of allocated memory!\n");
+        exit(-1);
     }
     else
     {
-        printf("Successfully freed!\n");
         n->freed = true;
     }
     return;
@@ -108,6 +111,10 @@ then adds a new one where addr is the return value from realloc() and len is siz
 */
 void *realloc537(void *ptr, size_t size)
 {
+    if (root == NULL)
+    {
+        root = init_root();
+    }
     //case1: given ptr is null
     if (ptr == NULL)
     {
@@ -116,8 +123,8 @@ void *realloc537(void *ptr, size_t size)
     //case2: given size is 0
     else if (size == 0)
     {
+        fprintf(stderr, "Trying to realloc of size 0, freeing the ptr!\n");
         free537(ptr);
-        //??  not sure
         return ptr;
     }
     //case 3: do regular realloc
@@ -129,7 +136,6 @@ void *realloc537(void *ptr, size_t size)
             delete_node(root, n);
         }
         void *p = realloc(ptr, size);
-        //printf("ptr:%p\n\n", p);
         malloccheck(p);
         interval *in = new_interval(p, size);
         insert_node(root, in);
@@ -143,6 +149,10 @@ When an error is detected, then print out a detailed and informative error messa
 */
 void memcheck537(void *ptr, size_t size)
 {
+    if (root == NULL)
+    {
+        root = init_root();
+    }
     tree_node *n = search_range(root, ptr, size);
     //case1: totaly missed i.e. the given memory doesn't overlap with any allocated
     if (n == NULL)
@@ -167,8 +177,3 @@ void memcheck537(void *ptr, size_t size)
     }
 }
 
-void printtree()
-{
-    printf("!!");
-    print_lvlorder(*root);
-}
