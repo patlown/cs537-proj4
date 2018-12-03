@@ -1,7 +1,6 @@
 /*Authors: Ge Xu, Patrick Lown 
 */
 #include "537malloc.h"
-#include <assert.h>
 static tree_node **root = NULL;
 
 void malloccheck(void *ptr);
@@ -51,9 +50,6 @@ void *malloc537(size_t size)
         }
         delete_node(root, n);
     }
-
-    //print function for testing, REMOVE
-    //print_inorder(*root, 0);
 
     //insert our new node into the tree.
     insert_node(root, in);
@@ -160,20 +156,20 @@ void memcheck537(void *ptr, size_t size)
         fprintf(stderr, "Address range specified by ptr and size are not allocated!\n");
         exit(-1);
     }
+    //case2: find match interval
     if (ptr >= n->i->low && (ptr + size - 1) <= (n->i->low + n->i->len - 1))
     {
         if (n->freed)
         {
-
             fprintf(stderr, "Address range specified by ptr and size has been freed!\n");
             exit(-1);
         }
         return;
     }
+    //case3: invalid address
     else
     {
         fprintf(stderr, "Address range specified by ptr and size spans out of a memory range that is currently allocated or freed\n");
         exit(-1);
     }
 }
-

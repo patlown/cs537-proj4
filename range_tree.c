@@ -6,32 +6,23 @@
     Private function headers
 */
 void insert_fix(tree_node **root, tree_node *z);
-tree_node *find_uncle(tree_node *node);
 void rotate_right(tree_node **root, tree_node *x);
 void rotate_left(tree_node **root, tree_node *x);
 void transplant(tree_node **root, tree_node *u, tree_node *v);
 void delete_fix(tree_node **root, tree_node *x);
 void malloccheck(void *ptr);
 
-//----------------------------------------------
 
 static tree_node nil_node;
 
 tree_node *root = NULL;
 static tree_node *nil = &nil_node;
 
-//------------ test struct
-//Queue *q;
-//static tree_node null_node;
-//static tree_node *null = &null_node;
-//----------
 
 tree_node **init_root()
 {
     root = nil;
-    //root->i = new_interval(NULL,0);
     root->color = 'b';
-
     return &root;
 }
 
@@ -41,7 +32,6 @@ tree_node *new_tree_node(interval *i)
     tree_node *node = malloc(sizeof(*node));
     malloccheck(node);
     node->i = i;
-    //node->max = i->low+i->len-1;
     node->left = nil;
     node->right = nil;
     node->parent = nil;
@@ -63,26 +53,7 @@ interval *new_interval(void *ptr, size_t size)
     return i;
 }
 
-void insert_adjust(tree_node *node)
-{
 
-    //checks if left child's max is greater than its own
-    if (node->left != NULL)
-    {
-        if (node->max < node->left->max)
-        {
-            node->max = node->left->max;
-        }
-    }
-    //checks if right child's max is greater than its own
-    if (node->right != NULL)
-    {
-        if (node->max < node->right->max)
-        {
-            node->max = node->right->max;
-        }
-    }
-}
 
 void insert_node(tree_node **root, interval *i)
 {
@@ -408,28 +379,15 @@ void delete_fix(tree_node **root, tree_node *x)
     x->color = 'b';
 }
 
-/*
-This function takes in a node and returns the uncle of that node
-*/
-tree_node *find_uncle(tree_node *node)
-{
-    if (node->parent == node->parent->parent->left)
-    {
-        return node->parent->parent->right;
-    }
-    return node->parent->parent->left;
-}
+
 
 tree_node *search_ptr(tree_node **root, void *ptr)
 {
-    //tree_node* y = nil;
     tree_node *x = *root;
 
     //find where new node is to be inserted
     while (x != nil)
     {
-
-        //y=x;
         if (ptr >= x->i->low && ptr <= (x->i->low + x->i->len - 1))
         {
             return x;
@@ -455,6 +413,7 @@ int is_overlap(interval *i1, interval *i2)
     return 0;
 }
 
+
 tree_node *search_range(tree_node **root, void *ptr, size_t size)
 {
     tree_node *x = *root;
@@ -465,8 +424,6 @@ tree_node *search_range(tree_node **root, void *ptr, size_t size)
     //find where new node is to be inserted
     while (x != nil)
     {
-
-        //y=x;
         if (is_overlap(in, x->i))
         {
             free(in);
@@ -485,7 +442,7 @@ tree_node *search_range(tree_node **root, void *ptr, size_t size)
     return NULL;
 }
 
-/*his function check the malloc call is successful returned*/
+/*this function check the malloc call is successful returned*/
 void malloccheck(void *ptr)
 {
     if (ptr == NULL)
@@ -495,105 +452,3 @@ void malloccheck(void *ptr)
     }
 }
 
-//----------------------------------------------------------------------------------------------------------------------------------------//
-//bellow is the printing tree function
-// void print_inorder(tree_node *root, int level)
-// {
-//     if (root == nil)
-//     {
-//         return;
-//     }
-
-//     print_inorder(root->left, level + 1);
-
-//     printf("The current tree_node has low: %p, high: %p, level: %d and color: %c\n",
-//            root->i->low, root->i->low + root->i->len - 1, level, root->color);
-
-//     print_inorder(root->right, level + 1);
-// }
-
-// void print_node(tree_node *node)
-// {
-//     printf("TreeNode: low: %p, high: %p, color: %c",
-//            node->i->low, node->i->low + node->i->len - 1, node->color);
-//     if(node->freed){
-//         printf(", freed");
-//     }
-//     printf("\n");
-// }
-
-// int height(struct tree_node *node)
-// {
-//     if (node == nil)
-//         return 0;
-//     else
-//     {
-//         /* compute the height of each subtree */
-//         int lheight = height(node->left);
-//         int rheight = height(node->right);
-
-//         /* use the larger one */
-//         if (lheight > rheight)
-//             return (lheight + 1);
-//         else
-//             return (rheight + 1);
-//     }
-// }
-
-// /* Print nodes at a given level */
-// void printGivenLevel(struct tree_node *root, int level)
-// {
-//     if (root == nil)
-//         return;
-//     if (level == 1)
-//         print_node(root);
-//     else if (level > 1)
-//     {
-//         printGivenLevel(root->left, level - 1);
-//         printGivenLevel(root->right, level - 1);
-//     }
-// }
-
-// void print_lvlorder(struct tree_node *root)
-// {
-//     int h = height(root);
-//     int i;
-//     for (i = 1; i <= h; i++)
-//     {
-//         printf("level %d:\n", i - 1);
-//         printGivenLevel(root, i);
-//     }
-// }
-
-// void print_lvl(struct tree_node *root)
-// {
-//     q = init_q(10000);
-//     int h = height(root);
-//     int i;
-//     add(q, (void *)root);
-//     for (i = 1; i <= h; i++)
-//     {
-//         printf("level %d:\n", i - 1);
-//         for (int j = 0; j < pow(2, i - 1); j++)
-//         {
-//             tree_node *pt = (tree_node *)pull(q);
-//             printf("%d:   ", j);
-//             if (pt == null)
-//             {
-//                 printf("nothing\n");
-//             }
-//             else if (pt == nil)
-//             {
-//                 printf("nil\n");
-//                 add(q, null);
-//                 add(q, null);
-//             }
-//             else
-//             {
-//                 print_node(pt);
-//                 add(q, pt->left);
-//                 add(q, pt->right);
-//             }
-//         }
-//     }
-// }

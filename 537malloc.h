@@ -41,6 +41,6 @@ When an error is detected, then print out a detailed and informative error messa
 */
 void memcheck537(void *ptr, size_t size);
 
-void printtree();
+
 
 #endif 

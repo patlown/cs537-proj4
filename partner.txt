@@ -1,0 +1,3 @@
+student,full name (as in Canvas),Net ID,CS ID,wisc email (not CS email),campus ID number
+1,Partick Lown,lown,lown,lown@wisc.edu,9070799912
+2,Ge Xu,gxu43,ge,gxu43@wisc.edu,9075312232

@@ -21,8 +21,6 @@ struct interval
 {
     void* low;
     int len;
-    //bool freed;
-
 };
 
 /*
@@ -34,7 +32,6 @@ inspired by this implementation of an interval tree: https://www.geeksforgeeks.o
 struct tree_node
 {
     interval *i;
-    void* max;
     tree_node *left,*parent,*right;
     char color;
     bool freed;
@@ -70,10 +67,7 @@ https://www.geeksforgeeks.org/c-program-red-black-tree-insertion/ were used as r
 */
 void insert_node(tree_node **root, interval* i);
 
-/*
-This function, checks, for the given node, if either child's max is greater than it's own.  If so, adjusts its own max
-*/
-void insert_adjust(tree_node* node);
+
 
 /*
 This function will delete a tree node in the current interval tree.  Has potential to change the max for interval nodes.
@@ -96,25 +90,11 @@ Complexity: O(logn) time for check
 */
 tree_node* search_range(tree_node **root, void* ptr, size_t size);
 
-
-
-
-/*
-This function will print the tree in level order
-*/
-void print_inorder(tree_node* root, int level);
-
-void print_lvlorder(tree_node* root);
-
 /*
 This function will search for the node that contains this ptr address, if not found return NULL
 */
 tree_node* search_ptr(tree_node **root, void* ptr);
 
-
-void print_node(tree_node* node);
-
-void print_lvl(struct tree_node* root);
 
 
 
